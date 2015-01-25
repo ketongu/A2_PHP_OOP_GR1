@@ -28,12 +28,39 @@
      */
     private $username;
 
+
+
+
+
     /**
      * @var string
      *
      * @Column(name="password", type="string", length=25)
      */
     private $password;
+
+     /**
+      * @var int
+      *
+      * @Column(name="PokemonId", type="integer")
+      */
+     private $pokemonId;
+
+     /**
+      * @param int $pokemonId
+      */
+     public function setPokemonId($pokemonId)
+     {
+         $this->pokemonId = $pokemonId;
+     }
+
+     /**
+      * @return int
+      */
+     public function getPokemonId()
+     {
+         return $this->pokemonId;
+     }
 
     /**
      * @inheritdoc

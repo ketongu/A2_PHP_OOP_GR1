@@ -27,7 +27,7 @@ if (!empty($_POST['pokemonName']) AND $pokemon == null)
     $newPokemon = new PokemonModel();
 
     $newPokemon
-        ->setId($_SESSION ['id'])
+        ->setTrainerId($_SESSION['id'])
         ->setHp(100)
         ->setName($pokemonName)
         ->settype($pokemonType)
@@ -35,9 +35,14 @@ if (!empty($_POST['pokemonName']) AND $pokemon == null)
 
     $em->persist($newPokemon);
     $em->flush();
+    header('Location: home.php');
 }
 
 
+if (!empty($_POST['attack']))
+{
+
+}
 
 
 
@@ -77,7 +82,17 @@ require __DIR__.'/html_header.html'; ?>
                 <option value="plant type">plant type</option>
                 </select>
                 <input type="text" class="form-control" id="pokemonName" name="pokemonName" placeholder="your Pokemon Name" required>
-            <?php }?>
+            <?php
+            }?>
+
+            <?php if ($pokemon !== null)
+            {?>
+                <h3> attack someone</h3>
+                <select class="form-control atkButton" style=" visibility : hidden;}" name="attack">
+                <option value="attack">attack</option>
+                </select>
+            <?php
+            }?>
 
 
 

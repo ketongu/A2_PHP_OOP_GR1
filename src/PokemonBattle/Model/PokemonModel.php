@@ -15,6 +15,7 @@ namespace Ketongu\Init\PokemonBattle\Model;
       * @var int
       *
       * @Id
+      * @GeneratedValue(strategy="AUTO")
       * @Column(name="id", type="integer")
       */
      private $id;
@@ -45,6 +46,37 @@ namespace Ketongu\Init\PokemonBattle\Model;
      const POKEMON_PLANT = 1;
 
      const POKEMON_WATER = 2;
+
+
+     /**
+      * @var int
+      *
+      * @Column(name="trainerId", type="integer")
+      */
+     private $trainerId;
+
+     /**
+      * @return int
+      */
+     public function getTrainerId()
+     {
+         return $this->trainerId;
+     }
+
+     /**
+      * @param int $trainerId
+      * @throws \Exception
+      * @return $this
+      */
+     public function setTrainerId($trainerId)
+     {
+         if (is_int($trainerId))
+             $this->trainerId = $trainerId;
+         else
+             throw new \Exception('TrainerId must be a int');
+
+         return $this;
+     }
 
      /**
       * @return int
