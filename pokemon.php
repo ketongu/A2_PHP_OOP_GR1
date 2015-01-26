@@ -1,39 +1,25 @@
 <?php
 
 require __DIR__.'/vendor/autoload.php';
-
-use Ketongu\Init\PokemonBattle\Model\PokemonModel;
-use Ketongu\Init\PokemonBattle\PokemonFire;
-use Ketongu\Init\PokemonBattle\PokemonWater;
-use Ketongu\Init\PokemonBattle\PokemonPlant;
-
-$pokemonFire = new PokemonFire();
-$pokemonFire
-    ->setName('Salamèche')
-    ->setHP(100)
-;
-
-$pokemonWater = new PokemonWater();
-$pokemonWater
-    ->setName('Carapuce')
-    ->setHP(100)
-;
-
-$pokemonPlant = new PokemonPlant();
-$pokemonPlant
-    ->setName('Bulbizarre')
-    ->setHP(100)
-;
+require __DIR__.'/header.php';
 
 
-$pokemons = [$pokemonWater, $pokemonFire, $pokemonPlant];
-shuffle($pokemons);
 
-//handmade
 
-$striker = $pokemons[0];
-$goal = $pokemons[1];
 
+/** @var \Doctrine\ORM\EntityRepository $pokemonRepository */
+$pokemonRepository = $em->getRepository('Ketongu\Init\PokemonBattle\Model\PokemonModel');
+
+$striker = $pokemonRepository->findOneBy([
+    'id' => $_SESSION["id"],
+]);
+
+
+
+
+$goal = $pokemonRepository->findOneBy([
+    'name' => $_GET['opponent'],
+]);
 
 
 echo '<h1>'.$striker->getName().' versus '.$goal->getName().' ! </h1><br><br>';
@@ -67,11 +53,11 @@ while ($striker->getHP() != 0 AND $goal->getHP() != 0)
     {
         $attack = mt_rand(5,25);
 
-        if (true === $striker->isTypeWeak($goal->getType()))
-            $attack = (int)ceil($attack / 2);
-
-        if (true === $striker->isTypeStrong($goal->getType()))
-            $attack = (int)ceil($attack * 2);
+//        if (true === $striker->isTypeWeak($goal->getType()))
+//            $attack = (int)ceil($attack / 2);
+//
+//        if (true === $striker->isTypeStrong($goal->getType()))
+//            $attack = (int)ceil($attack * 2);
         $goal->removeHP($attack);
 
 

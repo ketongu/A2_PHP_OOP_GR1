@@ -42,7 +42,7 @@
      /**
       * @var int
       *
-      * @Column(name="PokemonId", type="integer")
+      * @Column(name="PokemonId", type="integer" , nullable=true)
       */
      private $pokemonId;
 

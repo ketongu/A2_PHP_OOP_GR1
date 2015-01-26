@@ -2,8 +2,6 @@
 
 require __DIR__.'/header.php';
 
-if (empty($_SESSION['isConnected']))
-    header("Location: login.php");
 
 use Ketongu\Init\PokemonBattle\Model\TrainerModel;
 

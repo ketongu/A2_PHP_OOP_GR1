@@ -3,14 +3,13 @@
 require __DIR__.'/header.php';
 
 use Ketongu\Init\PokemonBattle\Model\PokemonModel;
+use Ketongu\Init\PokemonBattle\Model\TrainerModel;
 
 if ($_SESSION['isConnected'] !== true)
     header('Location: index.php');
 
-
-
-
-
+/** @var \Doctrine\ORM\EntityRepository $trainerRepository */
+$trainerRepository = $em->getRepository('Ketongu\Init\PokemonBattle\Model\TrainerModel');
 /** @var \Doctrine\ORM\EntityRepository $pokemonRepository */
 $pokemonRepository = $em->getRepository('Ketongu\Init\PokemonBattle\Model\PokemonModel');
 /** @var PokemonModel|null $pokemon */
@@ -34,7 +33,20 @@ if (!empty($_POST['pokemonName']) AND $pokemon == null)
     ;
 
     $em->persist($newPokemon);
+
+
     $em->flush();
+
+    $trainer = $trainerRepository->findOneBy([
+        'id' => $_SESSION["id"],
+    ]);
+    $trainer->setPokemonId( $newPokemon->getId() );
+
+    $em->flush();
+
+
+
+
     header('Location: home.php');
 }
 
@@ -42,6 +54,21 @@ if (!empty($_POST['pokemonName']) AND $pokemon == null)
 if (!empty($_POST['attack']))
 {
 
+    /** @var TrainerModel|null $trainers */
+    $trainers = $trainerRepository->findAll();
+    shuffle($trainers);
+    while ( $trainers[0]->getUsername()  == $_SESSION['username'])
+    {
+        shuffle($trainers);
+    }
+    $opponent = $trainers[0]->getUsername();
+
+    $pokemonn = $pokemonRepository->findOneBy([
+        'id' => $_SESSION["id"],
+    ]);
+    $pokemo = $pokemonn->getName();
+
+    header("Location: pokemon.php?opponent=$opponent&pokemon=$pokemo");
 }
 
 
